@@ -62,19 +62,53 @@ class LinkedList:
         self.size += 1
     
     def insert_end(self, data):
-        # add the data to the end of the linked list
-        pass
+        # create a new node
+        new_node = Node(data, None)
+        if len(self) == 0:
+            self.head = new_node
+            self.tail = new_node
+        else:
+            # set new node to be the next of the current tail
+            self.tail.next = new_node
+            # replace tail with new node
+            self.tail = new_node
+        
+        self.size += 1
+        
     
-    def insert_after(self, data, after_data):
-        # iterate until after_data is found, and insert the data next in line past the after_data
-        # if after_data is not found, insert at end
-        pass
+    def insert_after(self, data, search):
+        # iterate until we find the search value
+        current_node = self.head
+        while current_node:
+            # compare values
+            if current_node.data == search:
+                # if we have a match, insert
+                # new node's next needs to be current node's next
+                new_node = Node(data, current_node.next)
+                # overwrite current node's next with the new node
+                current_node.next = new_node
+                return
+            
+            current_node = current_node.next
+        
+        # if we are down here, no match was made, so just insert at the end
+        self.insert_end(data)
+        
 
 my_list = LinkedList()
 print('list should be empty:', my_list)
 my_list.insert_front(1)
 my_list.insert_front(2)
 my_list.insert_front(3)
+my_list.insert_end(10)
 print("list len:", len(my_list))
 print(my_list)
 # print(my_list.head, my_list.head.next, my_list.head.next.next, my_list.head.next.next.next)
+
+other_list = LinkedList()
+other_list.insert_end(10)
+other_list.insert_front(11)
+other_list.insert_end(9)
+other_list.insert_after(9.5, 10)
+other_list.insert_after(7, 8)
+print(other_list)
